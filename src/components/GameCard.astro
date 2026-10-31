@@ -2,6 +2,7 @@
 import type { Game } from '../types/game';
 import Tag from './Tag.astro';
 import ArrowRight from '../assets/icons/arrow-right.svg';
+import { formatRatingOutOfFive, formatStarRating } from '../lib/ratings';
 
 interface Props {
     game: Game;
@@ -36,6 +37,17 @@ const { game } = Astro.props;
                     )}
                 </div>
             )}
+
+            <div
+                class="flex items-center gap-2 mb-4 text-sm text-slate-300"
+                data-testid="game-rating"
+                aria-label={game.starRating === null ? 'No rating yet' : `Rating ${formatRatingOutOfFive(game.starRating)}`}
+            >
+                {game.starRating !== null && (
+                    <span class="text-yellow-400" aria-hidden="true">{formatStarRating(game.starRating)}</span>
+                )}
+                <span>{formatRatingOutOfFive(game.starRating)}</span>
+            </div>
 
             <p class="text-slate-400 mb-4 text-sm line-clamp-2" data-testid="game-description">{game.description}</p>
 

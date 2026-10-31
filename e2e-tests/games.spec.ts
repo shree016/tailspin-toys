@@ -2,6 +2,8 @@ import { test, expect, type Response } from '@playwright/test';
 
 test.describe('Game Listing and Navigation', () => {
   test('should display games with titles on index page', async ({ page }) => {
+    const gameCards = page.getByTestId('game-card');
+
     await test.step('Navigate to homepage', async () => {
       await page.goto('/');
     });
@@ -12,15 +14,17 @@ test.describe('Game Listing and Navigation', () => {
     });
 
     await test.step('Verify game cards are displayed', async () => {
-      const gameCards = page.getByTestId('game-card');
       await expect(gameCards.first()).toBeVisible();
       expect(await gameCards.count()).toBeGreaterThan(0);
     });
 
     await test.step('Verify game cards have titles with content', async () => {
-      const gameCards = page.getByTestId('game-card');
       await expect(gameCards.first().getByTestId('game-title')).toBeVisible();
       await expect(gameCards.first().getByTestId('game-title')).not.toBeEmpty();
+    });
+
+    await test.step('Verify game cards show ratings out of five', async () => {
+      await expect(gameCards.first().getByTestId('game-rating')).toContainText(/\/5$/);
     });
   });
 

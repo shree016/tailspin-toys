@@ -30,3 +30,10 @@ export function formatStarRating(rating: number | null): string {
 
     return '★'.repeat(fullStars) + (halfStar ? '½' : '') + '☆'.repeat(emptyStars);
 }
+
+/**
+ * Formats a numeric rating on the five-point scale used by game cards.
+ */
+export function formatRatingOutOfFive(rating: number | null): string {
+    return rating === null ? 'No rating yet' : `${clampRating(rating).toFixed(1)}/5`;
+}
